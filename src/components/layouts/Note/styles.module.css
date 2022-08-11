@@ -2,7 +2,7 @@
   width: 300px;
   max-height: 80px;
   cursor: pointer;
-  padding: 5px;
+  padding: 5px 5px 5px 10px;
 }
 
 .note:hover {
@@ -13,10 +13,17 @@
   width: 300px;
   max-height: 80px;
   cursor: pointer;
-  padding: 5px;
+  padding: 5px 5px 5px 10px;
   background-color: #303132;
 }
 
+.note_active > .title {
+  color: #fff;
+}
+
+.note_active > .content {
+  color: #aaa;
+}
 /* title only one line */
 
 .title {

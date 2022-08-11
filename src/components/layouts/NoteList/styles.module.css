@@ -28,3 +28,30 @@
   background-color: #343536;
   border-radius: 5px;
 }
+
+.buttonTools {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: transparent;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.buttonTools:hover {
+  color: #fff
+}
+
+.buttonTools:active {
+  color: #bbb
+}
+
+.toolsBar {
+  width: 300px;
+  height: 30px;
+  border-bottom: 1px solid #666;
+  display: flex;
+  gap: 10px;
+  padding-left: 8px;
+  margin-bottom: 5px;
+}

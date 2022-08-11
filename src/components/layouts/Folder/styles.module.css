@@ -1,0 +1,44 @@
+.folder { 
+  padding: 0;
+  margin: 0px !important;
+  width: 300px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.folder:hover {
+  background-color: #303132;
+}
+
+.inFolderContainer {
+  margin: 0;
+  width: 300px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0
+}
+
+.containerFiles {
+  margin: 0;
+  width: 285px;
+  border-left: 1px dotted #666;
+  padding: 0
+}
+
+.titleFolder {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px 0 0px 6px;
+  font-size: 14px;
+  color: #bbb;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+}

@@ -31,9 +31,15 @@ export interface File {
 }
 
 export interface Note {
-  _id?: string
-  fileName?: string
+  _id: string
+  fileName: string
   file: File
+}
+
+export interface Folder {
+  _id?: string
+  fileName: string
+  files: Array<Note> | null
 }
 
 export interface NoteContext {
