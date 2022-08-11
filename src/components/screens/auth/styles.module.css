@@ -1,0 +1,51 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  max-width: 400px;
+  min-width: 300px;
+  min-height: 28px;
+  background-color: #2e2e2e;
+  border: 0;
+  border-radius: 4px;
+  outline: 0;
+  color: #aaa
+}
+
+.button {
+  width: 200px;
+  min-height: 28px;
+  background-color: #2e2e2e;
+  border: 0;
+  border-radius: 4px;
+  outline: 0;
+  color: #aaa
+}
+
+.button:hover {
+  background-color: #242424;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.dontAccount {
+  text-decoration: none;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.dontAccount:hover {
+  color: #fff;
+}

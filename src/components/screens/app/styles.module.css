@@ -1,0 +1,62 @@
+.containerLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start
+}
+
+.containerApp {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+}
+
+.editor {
+  width: calc(100vw - 300px);
+  height: 100vh;
+}
+
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  background-color: #212327;
+}
+
+.topbar {
+  width: 100vw;
+  height: 24px;
+  background-color: #212327;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+}
+
+.navBtn {
+  padding: 2px 6px;
+  border: none;
+  border-radius: 2px;
+  background-color: #212327;
+  color: #aaa;
+  cursor: pointer;
+  height: 22px;
+}
+
+.navBtn:hover {
+  background-color: #3e4c5a;
+  color: #fff;
+}
+
+.navBtn:active {
+  background-color: #2e3c4a;
+  color: #fff;
+}

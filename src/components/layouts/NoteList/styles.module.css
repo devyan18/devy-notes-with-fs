@@ -1,0 +1,30 @@
+.noteList {
+  width: 300px;
+  height: calc(100vh - 24px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+}
+
+
+
+
+
+
+/*
+  change scrollbar width of noteList to 6px
+*/
+
+
+.noteList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.noteList::-webkit-scrollbar-track {
+  background-color: #212327;
+}
+
+.noteList::-webkit-scrollbar-thumb {
+  background-color: #343536;
+  border-radius: 5px;
+}

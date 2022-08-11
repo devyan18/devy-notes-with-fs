@@ -1,0 +1,13 @@
+.statusbar {
+  position: fixed;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background-color: #323232;
+  z-index: 1;
+}

@@ -1,0 +1,44 @@
+.note {
+  width: 300px;
+  max-height: 80px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.note:hover {
+  background-color: #303132;
+}
+
+.note_active {
+  width: 300px;
+  max-height: 80px;
+  cursor: pointer;
+  padding: 5px;
+  background-color: #303132;
+}
+
+/* title only one line */
+
+.title {
+  font-size: 14px;
+  color: #bbb;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* content use 3 lines */
+
+.content {
+  font-size: 12px;
+  color: #666;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  max-width: 300px;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
