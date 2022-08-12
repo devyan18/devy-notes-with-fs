@@ -55,7 +55,6 @@ export default function Folder (props: Props) {
 
   const hanldeCloseNoteCreator = () => {
     setNoteCreator(false)
-    toggleOpenFolder('false')
   }
 
   return (

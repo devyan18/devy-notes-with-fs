@@ -1,4 +1,3 @@
-import { BaseDirectory, createDir } from '@tauri-apps/api/fs'
 import { useState } from 'react'
 import { useSetNote } from '../../../contexts/CurrentNoteProvider'
 import useNotes from '../../../hooks/useNotes'
@@ -9,7 +8,8 @@ import Note from '../Note'
 import styles from './styles.module.css'
 
 export default function NoteList () {
-  const { loading, notes, folders, syncNotes } = useNotes()
+  const { data, isLoading, error } = useNotes()
+
   const [viewFolderCreator, setViewFolderCreator] = useState<boolean>(false)
 
   const [dirname, setDirname] = useState<string>('')
@@ -28,24 +28,14 @@ export default function NoteList () {
     setDirname(dirname)
   }
 
-  const handleCreateDir = async (dirname: string) => {
-    await createDir(`notes/${dirname}`, { dir: BaseDirectory.Document, recursive: true })
-  }
-
-  const handleSubmitCreateFolder = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    handleCreateDir(dirname)
-      .then(() => {
-        syncNotes()
-      })
-    toggleFolderCreator()
-    setDirname('')
+  if (error) {
+    return <div>No anduvo nada capo</div>
   }
 
   return (
     <>
       {
-        !loading
+        !isLoading
           ? (
           <div className={styles.noteList}>
             <div className={styles.toolsBar}>
@@ -53,27 +43,29 @@ export default function NoteList () {
               <button className={styles.buttonTools}><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fillRule="evenodd" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" transform="translate(3 3)"><path d="m7 1.5h-4.5c-1.1045695 0-2 .8954305-2 2v9.0003682c0 1.1045695.8954305 2 2 2h10c1.1045695 0 2-.8954305 2-2v-4.5003682"/><path d="m14.5.46667982c.5549155.5734054.5474396 1.48588056-.0167966 2.05011677l-6.9832034 6.98320341-3 1 1-3 6.9874295-7.04563515c.5136195-.5178979 1.3296676-.55351813 1.8848509-.1045243z"/><path d="m12.5 2.5.953 1"/></g></svg></button>
             </div>
             {
-              !folders.length && !notes.length &&
+              !data?.mappedFolders.length && !data?.mappedNotes.length &&
               <div>not files</div>
             }
             {
-              folders.length > 0 &&
-              folders.map((e) => {
+              data?.mappedFolders &&
+              data?.mappedFolders.length > 0 &&
+              data?.mappedFolders.map((e) => {
                 return <Folder onClickNote={handleClickNote} key={e._id} _id={e._id || ''} title={e.fileName} files={e.files} />
               })
             }
             {
-              viewFolderCreator &&
+              viewFolderCreator === true &&
               <FolderCreator
                 dirname={dirname}
                 onChange={handleChangeDirname}
                 onClose={toggleFolderCreator}
-                onSubmit={handleSubmitCreateFolder}
+                onSubmit={() => {}}
               />
             }
             {
-              notes.length > 0 &&
-              notes.map((e) => {
+              data?.mappedNotes &&
+              data?.mappedNotes.length > 0 &&
+              data?.mappedNotes.map((e) => {
                 return <Note key={e._id} title={e.file.title} content={e.file.content} note={e} onClick={handleClickNote}/>
               })
             }

@@ -1,8 +1,7 @@
 import {
   useState,
   createContext,
-  useContext,
-  useEffect
+  useContext
 } from 'react'
 import { Note, NoteContext } from '../interfaces'
 
@@ -31,10 +30,6 @@ const CurrentNoteProvider = (props: Props) => {
       content: ''
     }
   })
-
-  useEffect(() => {
-    console.log(note)
-  }, [note])
 
   return (
     <Context.Provider value={{ note, setNote }}>

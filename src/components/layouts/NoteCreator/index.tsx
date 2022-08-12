@@ -1,8 +1,8 @@
 import styles from './styles.module.css'
-import { writeTextFile, BaseDirectory } from '@tauri-apps/api/fs'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import useNotes from '../../../hooks/useNotes'
+import { createFileLocal } from '../../../services/createFiles.local'
 // Write a text file to the `$APPDIR/app.conf` path
 
 interface Props {
@@ -11,8 +11,9 @@ interface Props {
 }
 
 export default function NoteCreator (props: Props) {
+  const queryClient = useQueryClient()
+
   const [title, setTitle] = useState<string>('')
-  const { setNewFilWithInFolder } = useNotes()
 
   const initialData = () => {
     const newId = uuidv4()
@@ -20,25 +21,29 @@ export default function NoteCreator (props: Props) {
     const data = {
       _id: newId,
       title,
+      fileName: title,
       content: '# Hello World!'
     }
 
     return data
   }
 
+  const { mutate } = useMutation(createFileLocal, {
+    onSuccess (data, variables, context) {
+      queryClient.invalidateQueries(['files'])
+      console.log(JSON.parse(data))
+    }
+  })
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = initialData()
-    await writeTextFile(`notes/${props.folder}/${title}.json`, JSON.stringify(data), { dir: BaseDirectory.Document })
-    const { _id, content } = data
-    setNewFilWithInFolder(props.folder, {
-      _id,
-      fileName: title,
-      file: {
-        content,
-        title
-      }
+    mutate({
+      name: data.title,
+      content: data,
+      folder: props.folder
     })
+    props.onClose()
   }
 
   return (
