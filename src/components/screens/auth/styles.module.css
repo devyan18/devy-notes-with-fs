@@ -48,4 +48,5 @@
 
 .dontAccount:hover {
   color: #fff;
+  cursor: pointer;
 }

@@ -1,13 +1,15 @@
 import styles from './styles.module.css'
-import MenuContextProvider from '../../../contexts/MenuContextProvider'
 import MyEditor from '../../layouts/Editor'
 import NoteList from '../../layouts/NoteList'
 import { useNote, useSetNote } from '../../../contexts/CurrentNoteProvider'
+import { useSetContextMenu } from '../../../contexts/MenuContextProvider'
 
 export default function index () {
   const setNote = useSetNote()
 
   const note = useNote()
+
+  const setContextMenu = useSetContextMenu()
 
   const setDoc = (doc: string) => {
     setNote({
@@ -19,9 +21,15 @@ export default function index () {
     })
   }
 
+  const closeContext = () => {
+    setContextMenu({
+      view: false,
+      name: ''
+    })
+  }
+
   return (
-    <MenuContextProvider>
-      <div className={styles.containerLayout}>
+    <div className={styles.containerLayout} onClick={closeContext}>
       <div className={styles.topbar}>
         <ul className={styles.nav}>
           <button className={styles.navBtn}>save</button>
@@ -35,12 +43,10 @@ export default function index () {
             onChange={(doc) => setDoc(doc)}
           />
         </div>
-
-        <div className={styles.sidebar}>
+        <div className={styles.sidebar} >
           <NoteList />
         </div>
       </div>
-         </div>
-    </MenuContextProvider>
+    </div>
   )
 }

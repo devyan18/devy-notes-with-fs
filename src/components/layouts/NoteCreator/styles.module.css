@@ -1,0 +1,32 @@
+.form {
+  width: 300px;
+  padding-left: 27px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #303132;
+  border-radius: 2px;
+}
+
+.input {
+  background-color: transparent;
+  border: 0;
+  color: #aaa;
+  outline: 0;
+  padding: 3px;
+  border: 1px solid #404142
+}
+
+.button {
+  background-color: transparent;
+  border: 0;
+  color: #aaa;
+  outline: 0;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: #fff;
+}

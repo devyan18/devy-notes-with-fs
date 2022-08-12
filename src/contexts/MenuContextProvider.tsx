@@ -11,7 +11,7 @@ interface contextMenu {
 
 interface ContextMenuContext {
   contextMenu: contextMenu
-  setContextMenu: (contextMenu: contextMenu) => void
+  changeContextMenu: (contextMenu: contextMenu) => void
 }
 
 const Context = createContext<ContextMenuContext>({
@@ -19,7 +19,7 @@ const Context = createContext<ContextMenuContext>({
     view: false,
     name: ''
   },
-  setContextMenu: () => {}
+  changeContextMenu: () => {}
 } as ContextMenuContext)
 
 interface Props {
@@ -33,15 +33,28 @@ const MenuContextProvider = (props: Props) => {
   }
   const [contextMenu, setContextMenu] = useState<contextMenu>(initialMenuContext)
 
+  const changeContextMenu = ({
+    view,
+    name
+  }: contextMenu) => {
+    setContextMenu(initialMenuContext)
+    if (view) {
+      setContextMenu({
+        view,
+        name
+      })
+    }
+  }
+
   return (
-    <Context.Provider value={{ contextMenu, setContextMenu }}>
+    <Context.Provider value={{ contextMenu, changeContextMenu }}>
       {props.children}
     </Context.Provider>
   )
 }
 
 const useContextMenu = () => useContext(Context).contextMenu
-const useSetContextMenu = () => useContext(Context).setContextMenu
+const useSetContextMenu = () => useContext(Context).changeContextMenu
 
 export { useContextMenu, useSetContextMenu }
 export default MenuContextProvider

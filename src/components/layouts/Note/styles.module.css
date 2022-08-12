@@ -2,7 +2,7 @@
   width: 300px;
   max-height: 80px;
   cursor: pointer;
-  padding: 5px 5px 5px 10px;
+  padding: 5px 5px 5px 27px;
 }
 
 .note:hover {
@@ -13,7 +13,7 @@
   width: 300px;
   max-height: 80px;
   cursor: pointer;
-  padding: 5px 5px 5px 10px;
+  padding: 5px 5px 5px 27px;
   background-color: #303132;
 }
 
@@ -34,6 +34,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: flex;
+  gap: 4px
 }
 
 /* content use 3 lines */
