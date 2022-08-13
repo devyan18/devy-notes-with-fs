@@ -43,6 +43,8 @@ export interface Folder {
 }
 
 export interface NoteContext {
+  folder?:string,
+  setFolder: React.Dispatch<React.SetStateAction<string>>
   note: Note
   setNote: React.Dispatch<React.SetStateAction<Note>>
 }

@@ -4,6 +4,8 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding-bottom: 40px;
+  /* pointer-events: none; */
+  user-select: none;
 }
 
 

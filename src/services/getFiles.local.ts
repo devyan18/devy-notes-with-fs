@@ -1,4 +1,5 @@
 import { readDir, BaseDirectory, FileEntry, readTextFile } from '@tauri-apps/api/fs'
+import { type } from '@tauri-apps/api/os'
 
 interface File {
   title: string
@@ -22,9 +23,18 @@ interface Folder {
   files: Array<FileData> | null
 }
 
-const getLocalFiles = async () => {
-  const entries = await readDir('notes', { dir: BaseDirectory.Document, recursive: true })
+const osType = await type()
 
+const slash = osType === 'Windows_NT' ? '\\' : '/'
+
+const getLocalFiles = async () => {
+  const localPath = localStorage.getItem('path')
+  let entries: FileEntry[] = []
+  if (!localPath) {
+    entries = await readDir('notes', { dir: BaseDirectory.Document, recursive: true })
+  } else {
+    entries = await readDir(localPath, { recursive: true })
+  }
   const data:Array<string> = []
   const dataWidthFolder: Array<FolderWithoutDataFiles> = []
   function processEntries (entries: FileEntry[]) {
@@ -59,7 +69,12 @@ const getLocalFiles = async () => {
 
   for (const note of data) {
     if (note.includes('.json')) {
-      const text = await readTextFile(`notes/${note}`, { dir: BaseDirectory.Document })
+      let text:string = ''
+      if (localPath) {
+        text = await readTextFile(`${localPath}${slash}${note}`)
+      } else {
+        text = await readTextFile(`notes${slash}${note}`, { dir: BaseDirectory.Document })
+      }
       const { _id, title, content } = JSON.parse(text)
       mappedNotes.push({ _id, fileName: note, file: { title, content } })
     }
@@ -73,7 +88,12 @@ const getLocalFiles = async () => {
     }
     const filesByFolder: Array<FileData> = []
     for (const file of folders.files) {
-      const text = await readTextFile(`notes/${folders.fileName}/${file}`, { dir: BaseDirectory.Document })
+      let text:string = ''
+      if (localPath) {
+        text = await readTextFile(`${localPath}${slash}${folders.fileName}${slash}${file}`)
+      } else {
+        text = await readTextFile(`notes${slash}${folders.fileName}${slash}${file}`, { dir: BaseDirectory.Document })
+      }
       const { _id, title, content } = JSON.parse(text)
       filesByFolder.push({
         _id,

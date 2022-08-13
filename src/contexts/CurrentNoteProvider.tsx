@@ -6,6 +6,7 @@ import {
 import { Note, NoteContext } from '../interfaces'
 
 const Context = createContext<NoteContext>({
+  setFolder: () => {},
   note: {
     _id: '',
     fileName: '',
@@ -31,8 +32,10 @@ const CurrentNoteProvider = (props: Props) => {
     }
   })
 
+  const [folder, setFolder] = useState<string>('')
+
   return (
-    <Context.Provider value={{ note, setNote }}>
+    <Context.Provider value={{ folder, note, setNote, setFolder }}>
       {props.children}
     </Context.Provider>
   )
@@ -40,6 +43,8 @@ const CurrentNoteProvider = (props: Props) => {
 
 const useNote = () => useContext(Context).note
 const useSetNote = () => useContext(Context).setNote
+const useFolder = () => useContext(Context).folder
+const useSetFolder = () => useContext(Context).setFolder
 
-export { useNote, useSetNote }
+export { useNote, useSetNote, useFolder, useSetFolder }
 export default CurrentNoteProvider
