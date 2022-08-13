@@ -32,6 +32,12 @@
         "removeDir": true,
         "removeFile": true,
         "renameFile": true
+      },
+      "shell": {
+        "all": true,
+        "execute": true, 
+        "sidecar": true, 
+        "open": true 
       }
     },
     

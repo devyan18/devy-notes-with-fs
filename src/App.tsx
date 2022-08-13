@@ -7,15 +7,9 @@ import { useEffect, useState } from 'react'
 import { createDir, BaseDirectory } from '@tauri-apps/api/fs'
 import MenuContextProvider from './contexts/MenuContextProvider'
 
-import { isRegistered } from '@tauri-apps/api/globalShortcut'
 import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification'
 
 function App () {
-  const registerKey = async () => {
-    const data = await isRegistered('CommandOrControl+S')
-    console.log(data)
-  }
-
   const session = useSession()
 
   const [offline, setOffline] = useState<boolean>(false)
@@ -41,7 +35,6 @@ function App () {
   }
 
   useEffect(() => {
-    registerKey()
     createNotesDirectory()
     appIsReady()
     const offLineMode = localStorage.getItem('offline')

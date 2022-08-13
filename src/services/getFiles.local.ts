@@ -23,11 +23,9 @@ interface Folder {
   files: Array<FileData> | null
 }
 
-const osType = await type()
-
-const slash = osType === 'Windows_NT' ? '\\' : '/'
-
 const getLocalFiles = async () => {
+  const osType = await type()
+  const slash = osType === 'Windows_NT' ? '\\' : '/'
   const localPath = localStorage.getItem('path')
   let entries: FileEntry[] = []
   if (!localPath) {

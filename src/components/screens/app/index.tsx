@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import writeNoteLocal from '../../../services/writeFiles.local'
 import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification'
 import deleteLocalNote from '../../../services/deleteFile.local'
+import { relaunch } from '@tauri-apps/api/process'
 
 export default function index () {
   const setNote = useSetNote()
@@ -45,6 +46,7 @@ export default function index () {
           title: ''
         }
       })
+      await relaunch()
     }
   }
 
@@ -128,14 +130,6 @@ export default function index () {
       <div className={styles.containerApp}>
         <div className={styles.editor} onKeyDownCapture={handleSubmit}>
           <div className={styles.backgroundTitle}>
-            {
-              folder && (
-                <>
-                  <span className={styles.folder}>{folder}</span>
-                  <span className={styles.slash}>/</span>
-                </>
-              )
-            }
             <input
               spellCheck={false}
               className={styles.folderName}

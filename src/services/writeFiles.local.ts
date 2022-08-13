@@ -1,7 +1,6 @@
-import { writeTextFile, BaseDirectory } from '@tauri-apps/api/fs'
+import { writeTextFile } from '@tauri-apps/api/fs'
 import { type } from '@tauri-apps/api/os'
 import { Note } from '../interfaces'
-await writeTextFile('app.conf', 'file contents', { dir: BaseDirectory.App })
 
 export default async function writeNoteLocal (folder:string = '', note: Note) {
   const { _id, file, fileName } = note

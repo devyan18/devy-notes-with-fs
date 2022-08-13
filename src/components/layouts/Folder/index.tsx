@@ -7,6 +7,11 @@ import NoteCreator from '../NoteCreator'
 import ToggleArrow from '../../icons/ToggleArrow'
 import FolderIcon from '../../icons/FolderIcon'
 import NoteIcon from '../../icons/NoteIcon'
+import TrashIcon from '../../icons/TrashIcon'
+import { removeDir } from '@tauri-apps/api/fs'
+import { type } from '@tauri-apps/api/os'
+import { confirm } from '@tauri-apps/api/dialog'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface Props {
   _id: string
@@ -27,6 +32,8 @@ export default function Folder (props: Props) {
 
   const contextMenu = useContextMenu()
   const setContextMenu = useSetContextMenu()
+
+  const queryClient = useQueryClient()
 
   const toggleOpenFolder = (setter: string | undefined = '') => {
     if (setter === 'true') {
@@ -60,14 +67,35 @@ export default function Folder (props: Props) {
     setNoteCreator(false)
   }
 
+  const handleDeleteDirectory = async () => {
+    const osType = await type()
+
+    const slash = osType === 'Windows_NT' ? '\\' : '/'
+
+    const localPath = localStorage.getItem('path')
+
+    const path = `${localPath}${slash}${props.title}`
+
+    const isConfirmed = await confirm('Are you sure you want to delete this folder?', { title: 'Devy - Notes', type: 'warning' })
+
+    if (isConfirmed) {
+      await removeDir(path, { recursive: true })
+      queryClient.invalidateQueries(['files'])
+    }
+  }
+
   return (
-    <div className={styles.container} onContextMenu={handleOpenContextMenu} >
+    <div className={styles.container} onContextMenu={handleOpenContextMenu}>
       {
         contextMenu.view === true && contextMenu.name === `createChildren ${props.title}` && coords?.x && coords?.y &&
         <div className={styles.contextMenu} style={{ top: coords?.y, left: coords?.x }}>
           <button className={styles.contextMenuOption} onClick={() => setNoteCreator(true)}>
             <NoteIcon />
             <span>create note</span>
+          </button>
+          <button className={styles.contextMenuOption} onClick={handleDeleteDirectory}>
+            <TrashIcon />
+            <span>Delete Folder</span>
           </button>
         </div>
       }
@@ -82,6 +110,10 @@ export default function Folder (props: Props) {
           e.preventDefault()
           e.stopPropagation()
           toggleOpenFolder()
+          setContextMenu({
+            view: false,
+            name: ''
+          })
         }}>
         <p className={styles.titleFolder}>
           <ToggleArrow isOpen={isOpenFolderCreator} />

@@ -11,3 +11,7 @@
   background-color: #323232;
   z-index: 1;
 }
+
+* {
+  font-family: 'Devy-Casca','Devy-Hack' !important;
+}

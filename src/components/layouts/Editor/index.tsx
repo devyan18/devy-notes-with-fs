@@ -39,8 +39,7 @@ export default function MyEditor (props: Props) {
           vertical: 'hidden'
         },
         wordWrap: 'on',
-        fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 16,
         fontFamily: 'Cascadia Code, Menlo, Monaco, Consolas, "Courier New", monospace',
         fontLigatures: true,
         autoClosingBrackets: 'always',

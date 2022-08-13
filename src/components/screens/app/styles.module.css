@@ -82,6 +82,7 @@
 }
 
 .folder {
+  padding-top: 2px;
   color: #bd93f9;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -91,6 +92,7 @@
 }
 
 .slash {
+  padding-top: 2px;
   color: #aaa
 }
 
