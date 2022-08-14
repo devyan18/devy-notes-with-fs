@@ -1,24 +1,5 @@
 import { writeTextFile, createDir, BaseDirectory, readTextFile } from '@tauri-apps/api/fs'
-import { type } from '@tauri-apps/api/os'
-
-// Create the `$APPDIR/users` directory
-// Write a text file to the `$APPDIR/app.conf` path
-
-export async function createDirLocal (name: string) {
-  const osType = await type()
-
-  const slash = osType === 'Windows_NT' ? '\\' : '/'
-
-  const localPath = localStorage.getItem('path')
-
-  if (localPath) {
-    await createDir(`${localPath}${slash}${name}`)
-  } else {
-    await createDir(`notes${slash}${name}`, { dir: BaseDirectory.Document, recursive: true })
-  }
-
-  return name
-}
+import getSlash from '../utils/getSlash'
 
 interface ContentFile {
   _id: string
@@ -28,40 +9,37 @@ interface ContentFile {
 }
 
 interface FileLocal {
+  localPath: string
   name: string
   content: ContentFile,
   folder?: string
 }
 
-export async function createFileLocal ({ name, content, folder = '' }: FileLocal) {
-  const osType = await type()
+export async function createDirLocal (path:string, name: string) {
+  const slash = await getSlash()
+
+  if (path) {
+    await createDir(`${path}${slash}${name}`)
+  } else {
+    await createDir(`notes${slash}${name}`, { dir: BaseDirectory.Document, recursive: true })
+  }
+
+  return name
+}
+
+export async function createFileLocal ({ localPath, name, content, folder = '' }: FileLocal) {
   let path = ''
-
-  const slash = osType === 'Windows_NT' ? '\\' : '/'
-
-  const localPath = localStorage.getItem('path')
+  const slash = await getSlash()
 
   if (folder !== '') {
-    if (localPath) {
-      path = `${localPath}${slash}${folder}${slash}${name}.json`
-    } else {
-      path = `notes${slash}${folder}${slash}${name}.json`
-    }
+    path = `${localPath}${slash}${folder}${slash}${name}.json`
   } else {
-    if (localPath) {
-      path = `${localPath}${slash}${name}.json`
-    } else {
-      path = `notes${slash}${name}.json`
-    }
+    path = `${localPath}${slash}${name}.json`
   }
 
   let data: string = ''
-  if (localPath) {
-    await writeTextFile(path, JSON.stringify(content))
-    data = await readTextFile(path)
-  } else {
-    await writeTextFile(path, JSON.stringify(content), { dir: BaseDirectory.Document })
-    data = await readTextFile(path, { dir: BaseDirectory.Document })
-  }
+  await writeTextFile(path, JSON.stringify(content))
+  data = await readTextFile(path)
+
   return data
 }

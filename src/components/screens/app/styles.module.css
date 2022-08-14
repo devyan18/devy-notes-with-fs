@@ -14,7 +14,7 @@
 
 .editor {
   width: calc(100vw - 300px);
-  height: 100vh;
+  height: 90vh;
 }
 
 .sidebar {
@@ -105,4 +105,18 @@
   border: 0;
   outline: 0;
   width: 100%
+}
+
+.preview {
+  z-index: 9999999;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px) saturate(200%) brightness(50%) !important;
+  -webkit-backdrop-filter: blur(10px)  saturate(200%) brightness(50%) !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }

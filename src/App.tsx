@@ -1,22 +1,24 @@
-import './App.css'
-import { useSession } from './contexts/SessionProvider'
-import Application from './components/screens/app'
-import Auth from './components/screens/auth'
-import CurrentNoteProvider from './contexts/CurrentNoteProvider'
 import { useEffect, useState } from 'react'
-import { createDir, BaseDirectory } from '@tauri-apps/api/fs'
+import { useSession } from './contexts/SessionProvider'
+
+import CurrentNoteProvider from './contexts/CurrentNoteProvider'
 import MenuContextProvider from './contexts/MenuContextProvider'
 
-import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/api/notification'
+import Application from './components/screens/app'
+import Auth from './components/screens/auth'
+
+import './App.css'
+
+import {
+  isPermissionGranted,
+  requestPermission,
+  sendNotification
+} from '@tauri-apps/api/notification'
 
 function App () {
   const session = useSession()
 
   const [offline, setOffline] = useState<boolean>(false)
-
-  const createNotesDirectory = async () => {
-    await createDir('notes', { dir: BaseDirectory.Document, recursive: true })
-  }
 
   const handleSetOffline = () => {
     localStorage.setItem('offline', 'true')
@@ -35,8 +37,9 @@ function App () {
   }
 
   useEffect(() => {
-    createNotesDirectory()
+    localStorage.clear()
     appIsReady()
+
     const offLineMode = localStorage.getItem('offline')
 
     if (offLineMode) {

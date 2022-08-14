@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { createFileLocal } from '../../../services/createFiles.local'
 import NoteIcon from '../../icons/NoteIcon'
 import CloseIcon from '../../icons/CloseIcon'
+import { useGlobalPath } from '../../../contexts/GlobalPathProvider'
 
 interface Props {
   folder: string
@@ -13,6 +14,8 @@ interface Props {
 
 export default function NoteCreator (props: Props) {
   const queryClient = useQueryClient()
+
+  const globalPath = useGlobalPath()
 
   const [title, setTitle] = useState<string>('')
 
@@ -39,6 +42,7 @@ export default function NoteCreator (props: Props) {
     e.preventDefault()
     const data = initialData()
     mutate({
+      localPath: globalPath,
       name: data.title,
       content: data,
       folder: props.folder

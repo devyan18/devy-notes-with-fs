@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useSetNote } from '../../../contexts/CurrentNoteProvider'
+import { useGlobalPath } from '../../../contexts/GlobalPathProvider'
 import { useContextMenu, useSetContextMenu } from '../../../contexts/MenuContextProvider'
 import useNotes from '../../../hooks/useNotes'
 import { Note as INote } from '../../../interfaces'
@@ -14,9 +15,11 @@ import NoteCreator from '../NoteCreator'
 import styles from './styles.module.css'
 
 export default function NoteList () {
+  const globalPath = useGlobalPath()
+
   const queryClient = useQueryClient()
 
-  const { data, isLoading, error } = useNotes()
+  const { data, isLoading, error } = useNotes(globalPath)
   const [viewFolderCreator, setViewFolderCreator] = useState<boolean>(false)
   const [viewFileCreator, setViewFileCreator] = useState<boolean>(false)
   const [dirname, setDirname] = useState<string>('')
@@ -49,7 +52,7 @@ export default function NoteList () {
     setDirname(dirname)
   }
 
-  const { mutate: handleCreateDir } = useMutation((name: string) => createDirLocal(name), {
+  const { mutate: handleCreateDir } = useMutation((name: string) => createDirLocal(globalPath, name), {
     onSuccess () {
       queryClient.invalidateQueries(['files'])
       toggleFolderCreator()
@@ -111,7 +114,9 @@ export default function NoteList () {
               <button onClick={toggleFolderCreator} className={styles.buttonTools}>
                 <NewFolderIcon />
               </button>
-              <button className={styles.buttonTools}>
+              <button
+              onClick={toggleFileCreator}
+                className={styles.buttonTools}>
                 <NewFileIcon />
               </button>
             </div>

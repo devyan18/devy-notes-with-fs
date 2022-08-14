@@ -6,10 +6,6 @@
   cursor: pointer;
 }
 
-.folder:hover {
-  background-color: #303132;
-}
-
 .folderHover {
   padding: 0;
   margin: 0px !important;
@@ -45,6 +41,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.titleFolder:hover{ 
+  color: #fff
 }
 
 .container {

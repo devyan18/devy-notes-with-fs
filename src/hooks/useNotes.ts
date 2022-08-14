@@ -12,6 +12,6 @@ export interface FileData {
   file: File
 }
 
-export default function useNotes () {
-  return useQuery(['files'], iterateEntries)
+export default function useNotes (path: string) {
+  return useQuery(['files'], () => iterateEntries(path))
 }

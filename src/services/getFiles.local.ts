@@ -1,5 +1,5 @@
-import { readDir, BaseDirectory, FileEntry, readTextFile } from '@tauri-apps/api/fs'
-import { type } from '@tauri-apps/api/os'
+import { readDir, FileEntry, readTextFile } from '@tauri-apps/api/fs'
+import getSlash from '../utils/getSlash'
 
 interface File {
   title: string
@@ -23,18 +23,16 @@ interface Folder {
   files: Array<FileData> | null
 }
 
-const getLocalFiles = async () => {
-  const osType = await type()
-  const slash = osType === 'Windows_NT' ? '\\' : '/'
-  const localPath = localStorage.getItem('path')
+const getLocalFiles = async (localPath: string) => {
+  const slash = await getSlash()
+
   let entries: FileEntry[] = []
-  if (!localPath) {
-    entries = await readDir('notes', { dir: BaseDirectory.Document, recursive: true })
-  } else {
-    entries = await readDir(localPath, { recursive: true })
-  }
+
+  entries = await readDir(localPath, { recursive: true })
+
   const data:Array<string> = []
   const dataWidthFolder: Array<FolderWithoutDataFiles> = []
+
   function processEntries (entries: FileEntry[]) {
     for (const entry of entries) {
       if (!entry.children && entry.name) {
@@ -68,11 +66,8 @@ const getLocalFiles = async () => {
   for (const note of data) {
     if (note.includes('.json')) {
       let text:string = ''
-      if (localPath) {
-        text = await readTextFile(`${localPath}${slash}${note}`)
-      } else {
-        text = await readTextFile(`notes${slash}${note}`, { dir: BaseDirectory.Document })
-      }
+      text = await readTextFile(`${localPath}${slash}${note}`)
+
       const { _id, title, content } = JSON.parse(text)
       mappedNotes.push({ _id, fileName: note, file: { title, content } })
     }
@@ -87,11 +82,7 @@ const getLocalFiles = async () => {
     const filesByFolder: Array<FileData> = []
     for (const file of folders.files) {
       let text:string = ''
-      if (localPath) {
-        text = await readTextFile(`${localPath}${slash}${folders.fileName}${slash}${file}`)
-      } else {
-        text = await readTextFile(`notes${slash}${folders.fileName}${slash}${file}`, { dir: BaseDirectory.Document })
-      }
+      text = await readTextFile(`${localPath}${slash}${folders.fileName}${slash}${file}`)
       const { _id, title, content } = JSON.parse(text)
       filesByFolder.push({
         _id,

@@ -9,9 +9,11 @@ import FolderIcon from '../../icons/FolderIcon'
 import NoteIcon from '../../icons/NoteIcon'
 import TrashIcon from '../../icons/TrashIcon'
 import { removeDir } from '@tauri-apps/api/fs'
-import { type } from '@tauri-apps/api/os'
 import { confirm } from '@tauri-apps/api/dialog'
 import { useQueryClient } from '@tanstack/react-query'
+import { useFolder } from '../../../contexts/CurrentNoteProvider'
+import getSlash from '../../../utils/getSlash'
+import { useGlobalPath } from '../../../contexts/GlobalPathProvider'
 
 interface Props {
   _id: string
@@ -30,8 +32,12 @@ export default function Folder (props: Props) {
   const [coords, setCoords] = useState<Coords>()
   const [noteCreator, setNoteCreator] = useState<boolean>(false)
 
+  const globalPath = useGlobalPath()
+
   const contextMenu = useContextMenu()
   const setContextMenu = useSetContextMenu()
+
+  const currentFolder = useFolder()
 
   const queryClient = useQueryClient()
 
@@ -68,13 +74,9 @@ export default function Folder (props: Props) {
   }
 
   const handleDeleteDirectory = async () => {
-    const osType = await type()
+    const slash = await getSlash()
 
-    const slash = osType === 'Windows_NT' ? '\\' : '/'
-
-    const localPath = localStorage.getItem('path')
-
-    const path = `${localPath}${slash}${props.title}`
+    const path = `${globalPath}${slash}${props.title}`
 
     const isConfirmed = await confirm('Are you sure you want to delete this folder?', { title: 'Devy - Notes', type: 'warning' })
 
@@ -117,7 +119,11 @@ export default function Folder (props: Props) {
         }}>
         <p className={styles.titleFolder}>
           <ToggleArrow isOpen={isOpenFolderCreator} />
-          <FolderIcon />
+          {
+            currentFolder === props.title
+              ? <FolderIcon fill='currentColor' />
+              : <FolderIcon />
+          }
           <span className={styles.titleFolderText}>{props.title}</span>
         </p>
       </div>

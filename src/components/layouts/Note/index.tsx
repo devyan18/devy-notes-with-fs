@@ -6,13 +6,14 @@ import NoteIcon from '../../icons/NoteIcon'
 import TrashIcon from '../../icons/TrashIcon'
 import styles from './styles.module.css'
 import { open } from '@tauri-apps/api/shell'
-import { type } from '@tauri-apps/api/os'
 import { save } from '@tauri-apps/api/dialog'
 import DocumentIcon from '../../icons/DocumentIcon'
 import PageIcon from '../../icons/PageIcon'
 import exportFileToMarkdown from '../../../services/exportToMarkdown.local'
-import { useQueryClient } from '@tanstack/react-query'
-import { removeFile } from '@tauri-apps/api/fs'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import deleteLocalNote from '../../../services/deleteFile.local'
+import { useGlobalPath } from '../../../contexts/GlobalPathProvider'
+import getSlash from '../../../utils/getSlash'
 
 interface Props {
   note: INote
@@ -29,6 +30,8 @@ export default function Note (props: Props) {
   const setContextMenu = useSetContextMenu()
   const contextMenu = useContextMenu()
 
+  const globalPath = useGlobalPath()
+
   const [coords, setCoords] = useState({
     x: 0,
     y: 0
@@ -39,13 +42,9 @@ export default function Note (props: Props) {
   const note = useNote()
 
   const handleRevealLocationFile = async () => {
-    const localPath = localStorage.getItem('path')
+    const slash = await getSlash()
 
-    const osType = await type()
-
-    const slash = osType === 'Windows_NT' ? '\\' : '/'
-
-    let path = `${localPath}${slash}`
+    let path = `${globalPath}`
 
     if (props.inFolder) {
       path += `${props.folderName}${slash}`
@@ -70,24 +69,9 @@ export default function Note (props: Props) {
     }
   }
 
-  const handleDeleteNote = async () => {
-    const localPath = localStorage.getItem('path')
-
-    const osType = await type()
-
-    const slash = osType === 'Windows_NT' ? '\\' : '/'
-
-    let path = `${localPath}${slash}`
-
-    if (props.inFolder) {
-      path += `${props.folderName}${slash}`
-    }
-
-    path += `${props.note.fileName}`
-
-    const confirmed = await confirm('Are you sure?')
-    if (confirmed) {
-      await removeFile(path)
+  const { mutate: deleteFile } = useMutation(() => deleteLocalNote(globalPath, props.folderName, props.note.fileName), {
+    onSuccess () {
+      queryClient.invalidateQueries(['files'])
       setNote({
         _id: '',
         fileName: '',
@@ -96,8 +80,12 @@ export default function Note (props: Props) {
           title: ''
         }
       })
-      queryClient.invalidateQueries(['files'])
+      setFolder('')
     }
+  })
+
+  const handleDeleteNote = async () => {
+    deleteFile()
   }
 
   return (
@@ -156,7 +144,14 @@ export default function Note (props: Props) {
         </div>
       }
 
-      <p className={styles.title}><NoteIcon /><span className={styles.titleText}>{props.title}</span></p>
+      <p className={styles.title}>
+        {
+          note._id === props.note._id
+            ? <NoteIcon />
+            : <NoteIcon fill='none' stroke='currentColor'/>
+        }
+        <span className={styles.titleText}>{props.title}</span>
+      </p>
     </div>
   )
 }
