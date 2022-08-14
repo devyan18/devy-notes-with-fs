@@ -17,7 +17,31 @@
 }
 
 .preview.markdown-body pre {
-  background-color: #161718;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+.closer-preview-button {
+  background-color: #262728;
+  position: fixed;
+  top: 0px;
+  right: 20px;
+  cursor: pointer;
+  transition: all .5s ease;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  padding: 20px
+}
+
+.closer-preview-button:hover {
+  background-color: #2d2d2d;
 }
 
 @keyframes view {
@@ -34,4 +58,8 @@
     width: 800px;
     max-width: 800px;
   }
+  .closer-preview-button {
+    display: none;
+  }
 }
+

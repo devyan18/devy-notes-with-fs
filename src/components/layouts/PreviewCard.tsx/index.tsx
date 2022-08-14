@@ -1,32 +1,55 @@
 import React from 'react'
 import { useNote } from '../../../contexts/CurrentNoteProvider'
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
-import remarkGfm from 'remark-gfm'
-import remarkReact from 'remark-react'
-import rehypeHighlight from 'rehype-highlight'
-import RemarkEslintGuide from 'remark-preset-lint-markdown-style-guide'
+import ReactMarkdown from 'react-markdown'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-import './styles.css'
 import 'github-markdown-css/github-markdown.css'
+import './styles.css'
+import CloseIcon from '../../icons/CloseIcon'
 
-export default function PreviewCard () {
+interface Props {
+  onClose: () => void
+}
+
+export default function PreviewCard (props: Props) {
   const note = useNote()
 
-  const md = unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(RemarkEslintGuide)
-    .use(remarkReact, React)
-    .use(rehypeHighlight)
-    .processSync(note.file.content).result
   const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation()
   }
 
   return (
-    <div className='preview markdown-body' onClick={handleClick}>
-      {md}
+    <div className='preview markdown-body' onMouseDown={handleClick}>
+      <p className='closer-preview-button' onClick={props.onClose}>
+        <CloseIcon />
+      </p>
+     <ReactMarkdown
+        components={{
+          code ({ node, inline, className, children, ...props }) {
+            const match = /language-(\w+)/.exec(className || '')
+            return !inline && match
+              ? (
+              <SyntaxHighlighter
+              // @ts-ignore
+                style={oneDark}
+                language={match[1]}
+                PreTag="div"
+                {...props}
+              >
+                {String(children).replace(/\n$/, '')}
+              </SyntaxHighlighter>
+                )
+              : (
+              <code className={className} {...props}>
+                {children}
+              </code>
+                )
+          }
+        }}
+      >
+        {note.file.content}
+      </ReactMarkdown>
     </div>
   )
 }

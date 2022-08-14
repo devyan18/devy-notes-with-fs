@@ -12,6 +12,7 @@ import deleteLocalNote from '../../../services/deleteFile.local'
 import { useGlobalPath } from '../../../contexts/GlobalPathProvider'
 import { useState } from 'react'
 import PreviewCard from '../../layouts/PreviewCard.tsx'
+import CloseIcon from '../../icons/CloseIcon'
 
 export default function index () {
   const setNote = useSetNote()
@@ -88,7 +89,7 @@ export default function index () {
   })
 
   const handleDeleteNote = async () => {
-    const confirmed = await confirm('Are you sure?', 'Tauri')
+    const confirmed = await confirm('Are you sure?', 'Devy - Notes')
     if (confirmed) {
       deleteNote()
       setNote({
@@ -106,8 +107,8 @@ export default function index () {
     <>
      {
       viewPreview &&
-      <div className={styles.preview} onClick={togglePreview}>
-        <PreviewCard/>
+      <div className={styles.preview} onMouseDown={togglePreview}>
+        <PreviewCard onClose={togglePreview}/>
       </div>
     }
     <div className={styles.containerLayout} onClick={closeContext}>

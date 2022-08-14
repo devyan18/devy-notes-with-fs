@@ -53,7 +53,7 @@ export default function MyEditor (props: Props) {
       width="100%"
       height="100%"
       value={props.doc}
-      onChange={(value) => props.onChange(value || '')}
+      onChange={(value: string) => props.onChange(value || '')}
       language="markdown"
       defaultLanguage='markdown'
       defaultValue='# Hello World!!'
@@ -65,11 +65,11 @@ export default function MyEditor (props: Props) {
         },
         lineNumbers: 'off',
         scrollbar: {
-          vertical: 'hidden'
+          vertical: 'auto'
         },
         wordWrap: 'on',
         fontSize: 16,
-        fontFamily: 'Devy-Casca, Menlo, Monaco, Consolas, "Courier New", monospace',
+        fontFamily: 'Cascadia Code, Roboto, Menlo, Monaco, Consolas, "Courier New", monospace',
         fontLigatures: true,
         autoClosingBrackets: 'always',
         autoClosingQuotes: 'always',
