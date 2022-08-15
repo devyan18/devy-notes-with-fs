@@ -120,7 +120,7 @@ export default function Note (props: Props) {
       }}>
       {
         contextMenu.view && contextMenu.name === `${props.folderName}/${props.title}` &&
-        <div className={styles.contextMenu} style={{ top: coords.y, left: coords.x - 300 }}>
+        <div className={styles.contextMenu} style={{ top: coords.y, left: coords.x }}>
           <button
             className={styles.contextMenuOption}
             onClick={handleRevealLocationFile}

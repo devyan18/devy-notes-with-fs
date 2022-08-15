@@ -64,7 +64,7 @@ export default function Folder (props: Props) {
       name: `createChildren ${props.title}`
     })
     setCoords({
-      x: e.pageX - 300,
+      x: e.pageX,
       y: e.pageY
     })
   }

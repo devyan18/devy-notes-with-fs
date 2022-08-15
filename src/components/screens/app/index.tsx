@@ -124,6 +124,9 @@ export default function index () {
         </ul>
       </div>
       <div className={styles.containerApp}>
+        <div className={styles.sidebar} >
+          <NoteList />
+        </div>
         <div className={styles.editor} onKeyDownCapture={handleSubmit}>
           <div className={styles.backgroundTitle}>
             <input
@@ -146,9 +149,6 @@ export default function index () {
               onChange={(doc) => setDoc(doc)}
             />
           }
-        </div>
-        <div className={styles.sidebar} >
-          <NoteList />
         </div>
       </div>
     </div>

@@ -94,7 +94,7 @@ export default function NoteList () {
 
             {
               contextMenu.view && contextMenu.name === 'NoteList - contextMenu' &&
-              <div className={styles.contextMenu} style={{ top: coords.y, left: coords.x - 300 }}>
+              <div className={styles.contextMenu} style={{ top: coords.y, left: coords.x }}>
                 <button
                   onClick={toggleFolderCreator}
                   className={styles.contextMenuOption}>

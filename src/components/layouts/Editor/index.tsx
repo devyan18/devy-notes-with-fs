@@ -53,7 +53,7 @@ export default function MyEditor (props: Props) {
       width="100%"
       height="100%"
       value={props.doc}
-      onChange={(value: string) => props.onChange(value || '')}
+      onChange={(value: string | undefined) => props.onChange(value || '')}
       language="markdown"
       defaultLanguage='markdown'
       defaultValue='# Hello World!!'
