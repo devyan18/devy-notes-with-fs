@@ -1,8 +1,13 @@
 {
   "name": "devy-note",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "Bogarin Claudio Sebastián",
+    "email": "epache17@gmail.com"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

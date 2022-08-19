@@ -38,7 +38,6 @@ const GlobalPathProvider = (props: Props) => {
         } else {
           getAppDefaultDir()
             .then((e) => {
-              console.log(e)
               setGlobalPath(e)
             })
         }
