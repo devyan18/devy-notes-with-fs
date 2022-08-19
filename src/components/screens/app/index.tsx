@@ -12,7 +12,6 @@ import deleteLocalNote from '../../../services/deleteFile.local'
 import { useGlobalPath } from '../../../contexts/GlobalPathProvider'
 import { useState } from 'react'
 import PreviewCard from '../../layouts/PreviewCard.tsx'
-import CloseIcon from '../../icons/CloseIcon'
 
 export default function index () {
   const setNote = useSetNote()
@@ -119,7 +118,7 @@ export default function index () {
           <button className={styles.navBtn} onClick={handleDeleteNote}>Delete</button>
           {
             note.file.content !== '' &&
-            <button className={styles.navBtn} onClick={togglePreview}>Preview</button>
+            <button className={styles.navBtn} onClick={togglePreview}>Reading</button>
           }
         </ul>
       </div>

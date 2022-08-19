@@ -12,8 +12,8 @@ import { removeDir } from '@tauri-apps/api/fs'
 import { confirm } from '@tauri-apps/api/dialog'
 import { useQueryClient } from '@tanstack/react-query'
 import { useFolder } from '../../../contexts/CurrentNoteProvider'
-import getSlash from '../../../utils/getSlash'
 import { useGlobalPath } from '../../../contexts/GlobalPathProvider'
+import getSlash from '../../../utils/getSlash'
 
 interface Props {
   _id: string
@@ -104,10 +104,10 @@ export default function Folder (props: Props) {
 
       <div
         className={
-            contextMenu.view === true && contextMenu.name === `createChildren ${props.title}`
-              ? styles.folderHover
-              : styles.folder
-          }
+          contextMenu.view === true && contextMenu.name === `createChildren ${props.title}`
+            ? styles.folderHover
+            : styles.folder
+        }
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
@@ -127,17 +127,17 @@ export default function Folder (props: Props) {
           <span className={styles.titleFolderText}>{props.title}</span>
         </p>
       </div>
-        {
-          noteCreator &&
-          <NoteCreator
-            folder={props.title}
-            onClose={hanldeCloseNoteCreator}
-          />
-        }
-        {
-          isOpenFolderCreator && (
-            <div className={styles.inFolderContainer}>
-              <div className={styles.containerFiles}>
+      {
+        noteCreator &&
+        <NoteCreator
+          folder={props.title}
+          onClose={hanldeCloseNoteCreator}
+        />
+      }
+      {
+        isOpenFolderCreator && (
+          <div className={styles.inFolderContainer}>
+            <div className={styles.containerFiles}>
               {
                 props.files && props.files.map((e) => {
                   return (
@@ -153,11 +153,11 @@ export default function Folder (props: Props) {
                   )
                 })
               }
-              </div>
-
             </div>
-          )
-        }
+
+          </div>
+        )
+      }
     </div>
   )
 }

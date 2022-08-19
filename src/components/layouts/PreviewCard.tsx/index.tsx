@@ -1,16 +1,13 @@
-import React from 'react'
+import MarkdownPreview from '@uiw/react-markdown-preview'
 import { useNote } from '../../../contexts/CurrentNoteProvider'
-import ReactMarkdown from 'react-markdown'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-import 'github-markdown-css/github-markdown.css'
 import './styles.css'
+import 'github-markdown-css/github-markdown.css'
 import CloseIcon from '../../icons/CloseIcon'
 
 interface Props {
-  onClose: () => void
-}
+   onClose: () => void
+ }
 
 export default function PreviewCard (props: Props) {
   const note = useNote()
@@ -24,32 +21,10 @@ export default function PreviewCard (props: Props) {
       <p className='closer-preview-button' onClick={props.onClose}>
         <CloseIcon />
       </p>
-     <ReactMarkdown
-        components={{
-          code ({ node, inline, className, children, ...props }) {
-            const match = /language-(\w+)/.exec(className || '')
-            return !inline && match
-              ? (
-              <SyntaxHighlighter
-              // @ts-ignore
-                style={oneDark}
-                language={match[1]}
-                PreTag="div"
-                {...props}
-              >
-                {String(children).replace(/\n$/, '')}
-              </SyntaxHighlighter>
-                )
-              : (
-              <code className={className} {...props}>
-                {children}
-              </code>
-                )
-          }
-        }}
-      >
-        {note.file.content}
-      </ReactMarkdown>
+      <MarkdownPreview
+        linkTarget={'_blank'}
+        source={note.file.content}
+      />
     </div>
   )
 }
