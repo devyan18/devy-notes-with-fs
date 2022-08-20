@@ -23,10 +23,10 @@ export default function useUser () {
     if (session.token) {
       fetchingUser(session.token)
         .then(user => setSession(prev => {
-          setProcess(false)
           return { ...prev, user }
         }))
     }
+    setProcess(false)
   }, [])
   return { process }
 }

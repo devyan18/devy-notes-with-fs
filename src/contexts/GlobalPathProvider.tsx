@@ -31,15 +31,21 @@ const GlobalPathProvider = (props: Props) => {
 
   useEffect(() => {
     createNotesDirectory()
-      .then(() => {
+      .then(async () => {
         const customPath = localStorage.getItem('custom-path')
         if (customPath) {
           setGlobalPath(customPath)
         } else {
-          getAppDefaultDir()
-            .then((e) => {
-              setGlobalPath(e)
-            })
+          const defaultPath = localStorage.getItem('default-path') || ''
+          if (!defaultPath) {
+            getAppDefaultDir()
+              .then(e => {
+                setGlobalPath(e)
+                localStorage.setItem('default-path', e)
+              })
+          } else {
+            setGlobalPath(defaultPath)
+          }
         }
       })
   }, [])

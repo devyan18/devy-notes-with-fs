@@ -1,5 +1,5 @@
 .noteList {
-  width: 300px;
+  width: 250px;
   height: calc(100vh - 24px);
   overflow-y: auto;
   overflow-x: hidden;
@@ -49,48 +49,11 @@
 }
 
 .toolsBar {
-  width: 300px;
+  width: 250px;
   height: 30px;
   border-bottom: 1px solid #666;
   display: flex;
   gap: 10px;
   padding-left: 8px;
   margin-bottom: 5px;
-}
-
-.contextMenu {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  background-color: #202122;
-  border-radius: 2px;
-  padding: 0;
-  margin: 0;
-  width: 300px;
-  height: max-content;
-  z-index: 1;
-  border-radius: 4px;
-  padding: 4px;
-}
-
-.contextMenuOption {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 24px;
-  background-color: transparent;
-  border: 0;
-  color: #aaa;
-  outline: 0;
-  cursor: pointer;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px
-}
-
-.contextMenuOption:hover {
-  background-color: #303132;
-  color: #eee;
 }

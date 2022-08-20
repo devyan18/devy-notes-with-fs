@@ -1,62 +1,40 @@
-.note {
-  width: 250px;
-  max-height: 80px;
-  cursor: pointer;
-  padding: 5px 5px 5px 27px;
-}
-
-.note_active {
-  width: 250px;
-  max-height: 80px;
-  cursor: pointer;
-  padding: 5px 5px 5px 27px;
-  background-color: #282c34;
-}
-
-.note_active > .title {
-  color: #fff;
-}
-
-.note_active > .content {
-  color: #aaa;
-}
-/* title only one line */
-
-.title {
-  font-size: 12px;
-  color: #bbb;
+.cloudFilesContainer {
   padding: 0;
   margin: 0;
-  display: flex;
-  gap: 4px;
+}
+
+.cloudFiles {
+  padding: 0;
+  margin: 0;
+}
+
+.title {
+  padding: 0;
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #aaa;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  gap: 4px
 }
 
 .title:hover {
   color: #fff;
 }
 
-.titleText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 150px;
+.loading {
+  padding: 0 0 0 10px; 
+  margin: 0;
 }
 
-/* content use 3 lines */
-/* 
-.content {
-  font-size: 12px;
-  color: #666;
+.loadingText {
   padding: 0;
   margin: 0;
-  display: -webkit-box;
-  max-width: 250px;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-} */
+  font-size: 14px;
+  color: #eee;
+}
 
 
 .contextMenu {
@@ -69,7 +47,7 @@
   border-radius: 2px;
   padding: 0;
   margin: 0;
-  width: 300px;
+  width: 250px;
   height: max-content;
   z-index: 1;
   border-radius: 4px;

@@ -6,7 +6,7 @@ import NoteIcon from '../../icons/NoteIcon'
 import TrashIcon from '../../icons/TrashIcon'
 import styles from './styles.module.css'
 import { open } from '@tauri-apps/api/shell'
-import { save } from '@tauri-apps/api/dialog'
+import { confirm, save } from '@tauri-apps/api/dialog'
 import DocumentIcon from '../../icons/DocumentIcon'
 import PageIcon from '../../icons/PageIcon'
 import exportFileToMarkdown from '../../../services/exportToMarkdown.local'
@@ -85,7 +85,10 @@ export default function Note (props: Props) {
   })
 
   const handleDeleteNote = async () => {
-    deleteFile()
+    const confirmed = await confirm('Are you sure?', 'Devy - Notes')
+    if (confirmed) {
+      deleteFile()
+    }
   }
 
   return (

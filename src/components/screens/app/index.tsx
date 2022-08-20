@@ -12,6 +12,7 @@ import deleteLocalNote from '../../../services/deleteFile.local'
 import { useGlobalPath } from '../../../contexts/GlobalPathProvider'
 import { useState } from 'react'
 import PreviewCard from '../../layouts/PreviewCard.tsx'
+import { useSession } from '../../../contexts/SessionProvider'
 
 export default function index () {
   const setNote = useSetNote()
@@ -101,56 +102,65 @@ export default function index () {
       })
     }
   }
+  const session = useSession()
 
   return (
     <>
-     {
-      viewPreview &&
-      <div className={styles.preview} onMouseDown={togglePreview}>
-        <PreviewCard onClose={togglePreview}/>
-      </div>
-    }
-    <div className={styles.containerLayout} onClick={closeContext}>
-      <div className={styles.topbar}>
-        <ul className={styles.nav}>
-          <button className={styles.navBtn} onClick={handleSaveNote}>Save</button>
-          <button className={styles.navBtn} onClick={handleClearContent}>Clear</button>
-          <button className={styles.navBtn} onClick={handleDeleteNote}>Delete</button>
-          {
-            note.file.content !== '' &&
-            <button className={styles.navBtn} onClick={togglePreview}>Reading</button>
-          }
-        </ul>
-      </div>
-      <div className={styles.containerApp}>
-        <div className={styles.sidebar} >
-          <NoteList />
+      {
+        viewPreview &&
+        <div className={styles.preview} onMouseDown={togglePreview}>
+          <PreviewCard onClose={togglePreview}/>
         </div>
-        <div className={styles.editor} onKeyDownCapture={handleSubmit}>
-          <div className={styles.backgroundTitle}>
-            <input
-              spellCheck={false}
-              className={styles.folderName}
-              value={note.file.title}
-              type="text" onChange={(e) => setNote({
-                ...note,
-                file: {
-                  ...note.file,
-                  title: e.target.value
-                }
-              })}
-            />
+      }
+      <div className={styles.containerLayout} onClick={closeContext}>
+        <div className={styles.topbar}>
+          <ul className={styles.nav}>
+            <button className={styles.navBtn} onClick={handleSaveNote} title={'Save new content note'}>Save</button>
+            <button className={styles.navBtn} onClick={handleClearContent} title={'Clear note content'}>Clear</button>
+            <button className={styles.navBtn} onClick={handleDeleteNote} title={'Delete note'}>Delete</button>
+            {
+              note.file.content !== '' &&
+              <button className={styles.navBtn} onClick={togglePreview} title={'Reading mode'}>Reading</button>
+            }
+            {
+              session.user?.username
+                ? <button className={styles.navBtn} onClick={() => {}} title={'Sync in the devy-cloud'}>Sync</button>
+                : <button className={styles.navBtnDiss} disabled title={'Login required'}>Sync</button>
+            }
+          </ul>
+        </div>
+        <div className={styles.containerApp}>
+          <div className={styles.sidebar} >
+            <NoteList />
+            <div>
+              hola mundo
+            </div>
           </div>
-          {
-            note.fileName !== '' &&
-            <MyEditor
-              doc={note.file.content}
-              onChange={(doc) => setDoc(doc)}
-            />
-          }
+          <div className={styles.editor} onKeyDownCapture={handleSubmit}>
+            <div className={styles.backgroundTitle}>
+              <input
+                spellCheck={false}
+                className={styles.folderName}
+                value={note.file.title}
+                type="text" onChange={(e) => setNote({
+                  ...note,
+                  file: {
+                    ...note.file,
+                    title: e.target.value
+                  }
+                })}
+              />
+            </div>
+            {
+              note.fileName !== '' &&
+              <MyEditor
+                doc={note.file.content}
+                onChange={(doc) => setDoc(doc)}
+              />
+            }
+          </div>
         </div>
       </div>
-    </div>
     </>
   )
 }

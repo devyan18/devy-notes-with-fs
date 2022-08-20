@@ -1,6 +1,6 @@
 .form {
-  width: 300px;
-  padding-left: 27px;
+  width: 250px;
+  padding-left: 10px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

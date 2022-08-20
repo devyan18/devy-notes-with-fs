@@ -5,6 +5,7 @@ import {
   useContext
 } from 'react'
 import { Session, SessionContext } from '../interfaces'
+import { getAuthHost } from '../utils/getAuthHost'
 
 const Context = createContext<SessionContext>({
   session: {
@@ -15,6 +16,16 @@ const Context = createContext<SessionContext>({
 
 interface Props {
   children: JSX.Element | Array<JSX.Element>
+}
+
+const fetchingUser = (token: string) => {
+  return fetch(`${getAuthHost()}/token`, {
+    method: 'POST',
+    headers: {
+      Authorization: token
+    }
+  })
+    .then(res => res.json())
 }
 
 const SessionProvider = (props: Props) => {
@@ -30,8 +41,21 @@ const SessionProvider = (props: Props) => {
       setSession({
         token
       })
+      fetchingUser(token)
+        .then(user => {
+          setSession(prev => {
+            return {
+              ...prev,
+              user
+            }
+          })
+        })
     }
   }, [])
+
+  useEffect(() => {
+    console.log(session)
+  }, [session])
 
   return (
     <Context.Provider value={{ session, setSession }}>

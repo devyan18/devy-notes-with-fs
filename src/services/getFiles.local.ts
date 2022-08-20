@@ -23,7 +23,15 @@ interface Folder {
   files: Array<FileData> | null
 }
 
-const getLocalFiles = async (localPath: string) => {
+const getLocalFiles = async () => {
+  const customPath = localStorage.getItem('custom-path')
+  let localPath = ''
+  if (customPath) {
+    localPath = customPath
+  } else {
+    localPath = localStorage.getItem('default-path') || ''
+  }
+
   const slash = await getSlash()
 
   let entries: FileEntry[] = []

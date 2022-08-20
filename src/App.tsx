@@ -37,7 +37,7 @@ function App () {
   }
 
   useEffect(() => {
-    localStorage.clear()
+    // localStorage.clear()
     appIsReady()
 
     const offLineMode = localStorage.getItem('offline')
@@ -47,10 +47,12 @@ function App () {
     }
   }, [])
 
+  // const { process } = useUser()
+
   return (
     <div className="App">
       {
-        session.token || offline
+        (session.token && session.user?.username) || offline
           ? (
               <MenuContextProvider>
                 <CurrentNoteProvider>
