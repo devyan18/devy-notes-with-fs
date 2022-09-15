@@ -27,6 +27,16 @@
   outline: 0;
   color: #aaa
 }
+.button:disabled {
+  width: 200px;
+  min-height: 28px;
+  background-color: #6e6e6e;
+  border: 0;
+  border-radius: 4px;
+  outline: 0;
+  color: #aaa;
+  cursor: progress;
+}
 
 .button:hover {
   background-color: #242424;

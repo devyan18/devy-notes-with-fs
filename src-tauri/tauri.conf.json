@@ -85,7 +85,7 @@
         "fullscreen": false,
         "resizable": true,
         "title": "Devy Note",
-        "minWidth": 1280,
+        "minWidth": 1080,
         "minHeight": 600
       }
     ]

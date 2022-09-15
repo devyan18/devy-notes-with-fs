@@ -12,6 +12,7 @@ export interface Session {
 export interface SessionContext {
   session: Session
   setSession: React.Dispatch<React.SetStateAction<Session>>
+  loading: boolean
 }
 
 export interface Group {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSession } from './contexts/SessionProvider'
+import { useIsSessionLoading, useSession } from './contexts/SessionProvider'
 
 import CurrentNoteProvider from './contexts/CurrentNoteProvider'
 import MenuContextProvider from './contexts/MenuContextProvider'
@@ -14,11 +14,14 @@ import {
   requestPermission,
   sendNotification
 } from '@tauri-apps/api/notification'
+import Loading from './components/layouts/Loading'
 
 function App () {
   const session = useSession()
 
   const [offline, setOffline] = useState<boolean>(false)
+
+  const isLoadingSession = useIsSessionLoading()
 
   const handleSetOffline = () => {
     localStorage.setItem('offline', 'true')
@@ -37,7 +40,6 @@ function App () {
   }
 
   useEffect(() => {
-    // localStorage.clear()
     appIsReady()
 
     const offLineMode = localStorage.getItem('offline')
@@ -47,21 +49,27 @@ function App () {
     }
   }, [])
 
-  // const { process } = useUser()
+  if ((session.token && session.user?.username) || offline) {
+    return (
+      <MenuContextProvider>
+        <CurrentNoteProvider>
+          <Application />
+        </CurrentNoteProvider>
+      </MenuContextProvider>
+    )
+  }
+
+  if (isLoadingSession) {
+    return (
+      <div className="loading-page">
+        <Loading/>
+      </div>
+    )
+  }
 
   return (
     <div className="App">
-      {
-        (session.token && session.user?.username) || offline
-          ? (
-              <MenuContextProvider>
-                <CurrentNoteProvider>
-                  <Application />
-                </CurrentNoteProvider>
-              </MenuContextProvider>
-            )
-          : <Auth offLineSetter={handleSetOffline} />
-      }
+      <Auth offLineSetter={handleSetOffline} />
     </div>
   )
 }

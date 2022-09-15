@@ -5,27 +5,18 @@ import {
   useContext
 } from 'react'
 import { Session, SessionContext } from '../interfaces'
-import { getAuthHost } from '../utils/getAuthHost'
+import { fetchingUserWithToken } from '../services/api.public'
 
 const Context = createContext<SessionContext>({
   session: {
     token: null
   },
-  setSession: () => {}
+  setSession: () => {},
+  loading: false
 })
 
 interface Props {
   children: JSX.Element | Array<JSX.Element>
-}
-
-const fetchingUser = (token: string) => {
-  return fetch(`${getAuthHost()}/token`, {
-    method: 'POST',
-    headers: {
-      Authorization: token
-    }
-  })
-    .then(res => res.json())
 }
 
 const SessionProvider = (props: Props) => {
@@ -35,37 +26,35 @@ const SessionProvider = (props: Props) => {
 
   const [session, setSession] = useState<Session>(initialSession)
 
+  const [loading, setLoading] = useState<boolean>(false)
+
   useEffect(() => {
     const token = window.localStorage.getItem('token')
     if (token) {
-      setSession({
-        token
-      })
-      fetchingUser(token)
-        .then(user => {
-          setSession(prev => {
-            return {
-              ...prev,
-              user
-            }
+      setLoading(true)
+      fetchingUserWithToken(token)
+        .then(response => {
+          setSession({
+            token,
+            user: response.user
           })
+        })
+        .finally(() => {
+          setLoading(false)
         })
     }
   }, [])
 
-  useEffect(() => {
-    console.log(session)
-  }, [session])
-
   return (
-    <Context.Provider value={{ session, setSession }}>
+    <Context.Provider value={{ session, setSession, loading }}>
       {props.children}
     </Context.Provider>
   )
 }
 
 const useSession = () => useContext(Context).session
+const useIsSessionLoading = () => useContext(Context).loading
 const useSetSession = () => useContext(Context).setSession
 
-export { useSession, useSetSession }
+export { useSession, useSetSession, useIsSessionLoading }
 export default SessionProvider
