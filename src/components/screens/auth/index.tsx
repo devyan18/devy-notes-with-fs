@@ -10,7 +10,9 @@ export default function Auth (props: Props) {
   const { handleChangeParams, params, handleSubmit, error, loading } = useLogin()
 
   useEffect(() => {
-    console.log(error)
+    if (error) {
+      console.log(error)
+    }
   }, [error])
 
   return (

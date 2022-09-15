@@ -1,14 +1,11 @@
 import { useState } from 'react'
-import { useSession } from '../../../contexts/SessionProvider'
 import NewFileIcon from '../../icons/NewFileIcon'
 import NewFolderIcon from '../../icons/NewFolderIcon'
-import CloudFiles from '../CloudFiles'
 import LocalFiles from '../LocalFiles'
 import styles from './styles.module.css'
+// import CloudFiles from '../CloudFiles'
 
 export default function NoteList () {
-  const session = useSession()
-
   const [viewFolderCreator, setViewFolderCreator] = useState<boolean>(false)
 
   const toggleFolderCreator = () => {
@@ -31,11 +28,7 @@ export default function NoteList () {
           <NewFileIcon />
         </button>
       </div>
-      {
-        session.user?.username && (
-          <CloudFiles />
-        )
-      }
+      {/* <CloudFiles/> */}
       <LocalFiles/>
     </div>
   )
